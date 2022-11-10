@@ -1,0 +1,184 @@
+///////////////////////////////////////
+CREAMOS APLICACION SENCILLA:
+LEE UN ARCHIVO Y ENVIA AL CLIENTE
+
+Iniciamos con npm init -y
+Luego instalamos express con npm i express
+
+Creamos un archivo index.js y escribimos el siguiente código:
+const http = require('http');
+const fs = require('fs');
+
+const server = http.createServer((req, res) => {
+  const read = fs.createReadStream('./static/index.html');
+  read.pipe(res)
+})
+
+server.listen(3000)
+console.log(`Server  on port ${3000}`)
+
+Creo una carpeta static y dentro index.html con el codigo:
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello worl</title>
+  </head>
+  <body>
+    <h1>hello world</h1>
+  </body>
+</html>
+
+
+////////////////////////
+///////////////////////////////////////
+CREAMOS APLICACION SENCILLA con express:
+LEE UN ARCHIVO Y ENVIA AL CLIENTE
+
+
+const express = require('express')
+
+const app = express()
+
+app.get('/', (req, res) => {
+  // Tenemos la funcion que nos permite leer el archivo
+  res.sendFile('./static/index.html',
+    // La ruta completa inicical hasta este proyecto
+    { root: __dirname })
+})
+
+app.listen(3000)
+
+console.log(`Server  on port ${3000}`)
+
+/////////////////////////
+//////////////////////////////////////////////////
+
+CREAMOS DISTINTAS RUTAS  A PARTIR DE UN CONEPTO QUE NOS PERMITE EXPRES LLAMADO ROUTING 
+UNA FUNCION LLAMADA FET QUE RECIBE EL NOMBRE E LA RUTAPARA SER VISITADA
+
+EL PROTOCOLO HTTP:
+ ESPECIFICA COMO UN CLIENTE PUEDE COMUNICARSE CON UN SERVIDOR O DIFERENTES APICACIONES ENTR ELLAS
+dashboard:panel de control
+
+CODIGO ARCHIVO index.js:
+
+
+const express = require('express')
+
+const app = express()
+
+app.get('/', (req, res) => {
+  // Introduce entre etiqueta text en el navegador
+  res.send('Hola mundo')
+})
+// Enviamos un tipo de respuesta dependiendo de la url solicitada rooting
+app.get('/about', (req, res) => {
+  res.send('About')
+})
+// Si introducimos en el navegador http://localhost:3000/about nos devolverá el texto About
+// Cuando el cliente busca ruta Sino existe la ruta nos devuelve mensage 404
+// Sin el framework express nos hubiera devuelto un codigo 200
+app.get('/weather', (req, res) => {
+  res.send('The curret weather in Nice')
+})
+
+// CUando no existe las rutas anterioers que existen en el servidor
+// Ejecuta esta funcion de error
+app.use((req, res) => {
+  // Sino pongo status(404) en la pagina el codigo de estado me devuleve un 200
+  res.status(404).send('No se encontro la ruta de tu pagina')
+})
+
+app.listen(3000)
+
+console.log(`Server  on port ${3000}`)
+
+/////////////////////////////////////////////////
+///////////////////////////////////////////////////
+
+HTTP METHODS
+Peticiones http:
+
+get:El cliente intenta obtener datos del servidor
+
+post:El cliente envia datos al servidor y este va a tener que wardarlos quizas,
+     en una base de datosEl cliente esta tratando de crear algo en el servidor
+
+put: El cliente esta intentando actualizar algo quizas haya un dato del servidor que existe y       queremos actualizar, ejemplo:
+Tenemos una lista de ususarios  y queremos actualizar algun dato en especifico, el cliente le envia al servidor el id del usuario para que el servidor lo busque y lo actualice 
+
+delete: El cliente esta intentando eliminar algo del servidor:
+Tenemos una lista de usuarios y queremos eliminar alguno de ellos, el cliente le envia al servidor el id del usuario para que el servidor lo busque y lo elimine
+
+path es parecido al put pero solo actualiza una parte de los datos 
+
+COMENTARIOS HTTP:
+Cuando el cliente visista una url no tan solo esta visistando un nombre,sino que utiliza uno de los metodos de http(get,post,put,delete) para comunicarse con el servidor
+ Los metodos http No esta relacionado con el servidor, sino con los metodos de comunicacion con el servidor los metodos de hhtp.
+
+/////////////////////////////////////////////////
+
+next@nebula:~/Vídeos/backend-nodejs-fazt/express-curso$ git commit -m "HTTP metodos en express get post put path delete""
+git add .
+> 
+> 
+> ^C
+next@nebula:~/Vídeos/backend-nodejs-fazt/express-curso$ 
+
+///////////////////////////////////////////////
+
+Un cliente rest:
+   es un programa que nos permite trabajar con estas peticione get post put delete
+Abrimos thunder client para hacer las peticiones http:
+  Ponemos http://localhost:3000/products con los diferentes metodos.
+
+Codigo del archivo index.js:
+
+
+const express = require('express')
+
+const app = express()
+
+app.get('/products', (req, res) => {
+  // Validar Datos
+  // query database
+  // process data
+
+  res.send('Lista de productos')
+})
+
+app.post('/products', (req, res) => {
+  res.send('Creando productos')
+})
+
+app.put('/products', (req, res) => {
+  res.send('Actulaizando producto')
+})
+
+app.delete('/products', (req, res) => {
+  res.send('Eliminado un productos')
+})
+
+app.patch('/products', (req, res) => {
+  res.send('Acrualizando una parte del producto')
+})
+
+app.listen(3000)
+
+console.log(`Server  on port ${3000}`)
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+HTTP RESPONSE
+
+Para subir imagen al servidor y mostrartla por la pagina web:
+
+El codidigo index.js:
+
+
+
